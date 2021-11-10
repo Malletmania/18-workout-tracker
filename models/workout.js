@@ -7,7 +7,7 @@ const workoutSchema = new Schema({
     trim: true,
     required: "Please enter name"
   },
-  type: {
+  typeOfWorkout: {
     type: String,
     trim: true,
     required: "Please enter type of workout"
@@ -28,3 +28,28 @@ const workoutSchema = new Schema({
     required: "Please enter the duration of your workout"
   }
 });
+
+workoutSchema.methods.name = function() {
+  this.name = true;
+  return this.name;
+};
+
+workoutSchema.methods.typeOfWorkout = function() {
+  this.name = true;
+  return this.name
+};
+
+workoutSchema.methods.weight = function() {
+  this.name = true;
+  return this.name
+};
+
+workoutSchema.methods.sets = function() {
+  this.name = true;
+  return this.name
+};
+
+workoutSchema.methods.duration = function() {
+  this.name = true;
+  return this.name
+};
