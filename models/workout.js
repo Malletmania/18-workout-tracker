@@ -2,53 +2,49 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const workoutSchema = new Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: "Please enter name"
+  day: {
+    type: Date,
+    default: Date.now
   },
-  typeOfWorkout: {
-    type: String,
-    required: true
-  },
-  weight: {
-    type: Number,
-    trim: true,
-    required: "Please enter weight"
-  },
-  sets: {
-    type: Number,
-    trim: true,
-    required: "Please enter number of sets"
-  },
-  duration: {
-    type: Number,
-    trim: true,
-    required: "Please enter the duration of your workout"
-  }
+  exercises: [
+    {
+      name: {
+        type: String,
+        trim: true,
+        required: "Please enter name"
+      },
+      typeOfWorkout: {
+        type: String,
+        enum: ['resistance', 'cardio'],
+        required: "resistance or cardio"
+      },
+      weight: {
+        type: Number,
+        required: isRequired('weight')
+      },
+      reps: {
+        type: Number,
+        required: isRequired('reps')
+      },
+      sets: {
+        type: Number,
+        trim: true,
+        required: isRequired('sets')
+      },
+      duration: {
+        type: Number,
+        required: "Please enter the duration of your workout"
+      },
+      distance: {
+        type: Number,
+        required: isRequired('distance')
+      }
+    }]
+  
 });
 
-workoutSchema.methods.name = function() {
-  this.name = true;
-  return this.name;
-};
-
-workoutSchema.methods.typeOfWorkout = function() {
-  this.name = true;
-  return this.name
-};
-
-workoutSchema.methods.weight = function() {
-  this.name = true;
-  return this.name
-};
-
-workoutSchema.methods.sets = function() {
-  this.name = true;
-  return this.name
-};
-
-workoutSchema.methods.duration = function() {
-  this.name = true;
-  return this.name
-};
+workoutSchema.firtual('totalDuration').get(function() {
+  return this.exercises.reduce((total, exercise) => {
+    return total + exercise.duration;
+  }, 0);
+})
