@@ -43,6 +43,16 @@ const workoutSchema = new Schema({
   
 });
 
+function isRequired(field) {
+  return function () {
+    if (field == "distance") {
+      return this.type === 'cardio';
+    } else {
+      return this.type === 'resistance';
+    }
+  };
+}
+
 workoutSchema.firtual('totalDuration').get(function() {
   return this.exercises.reduce((total, exercise) => {
     return total + exercise.duration;
