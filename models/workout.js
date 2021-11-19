@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const workoutSchema = new Schema({
+const WorkoutSchema = new Schema({
   day: {
     type: Date,
     default: Date.now
@@ -15,21 +15,19 @@ const workoutSchema = new Schema({
       },
       typeOfWorkout: {
         type: String,
-        enum: ['resistance', 'cardio'],
         required: "resistance or cardio"
       },
       weight: {
         type: Number,
-        required: isRequired('weight')
+        // required: isRequired('weight')
       },
       reps: {
         type: Number,
-        required: isRequired('reps')
+        // required: isRequired('reps')
       },
       sets: {
         type: Number,
-        trim: true,
-        required: isRequired('sets')
+        // required: isRequired('sets')
       },
       duration: {
         type: Number,
@@ -37,24 +35,12 @@ const workoutSchema = new Schema({
       },
       distance: {
         type: Number,
-        required: isRequired('distance')
+        // required: isRequired('distance')
       }
     }]
   
 });
 
-function isRequired(field) {
-  return function () {
-    if (field == "distance") {
-      return this.type === 'cardio';
-    } else {
-      return this.type === 'resistance';
-    }
-  };
-}
+const Workout = mongoose.model("Workout", WorkoutSchema);
 
-workoutSchema.firtual('totalDuration').get(function() {
-  return this.exercises.reduce((total, exercise) => {
-    return total + exercise.duration;
-  }, 0);
-})
+module.exports = Workout;
